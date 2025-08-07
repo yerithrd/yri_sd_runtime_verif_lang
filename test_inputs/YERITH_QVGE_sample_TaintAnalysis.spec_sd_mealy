@@ -1,0 +1,7 @@
+yri_sd_mealy_automaton_spec YERITH_QVGE_sample_TaintAnalysis
+{
+ BEGIN_STATE(T0):NOT_IN_BEFORE(op,yri_tainted_analysis.sanitizers)
+  ->[not_in_sql_event_log('SELECT.i0#sanitize',STATE(T0))]/'INSERT.i0#op'->
+   ERROR_STATE(TF):IN_POST(i0,yri_tainted_analysis.tainted).
+}
+
