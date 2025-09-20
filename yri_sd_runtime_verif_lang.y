@@ -1,3 +1,6 @@
+/*
+* @AUTEUR: Pr. Prof. Dr.-Ing. Xavier Noumbissi Noundou
+*/
 
 %{
 #include "YRI_HEADING.h"
