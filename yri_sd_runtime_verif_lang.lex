@@ -97,7 +97,7 @@ r_brace								"}"
 {r_parenthesis}					{ yylval.opt_val = new std::string(yytext); return RIGHT_PARENTHESIS_TOK; }
 {l_brace}								{ yylval.opt_val = new std::string(yytext); return LEFT_BRACE_TOK; }
 {r_brace}								{ yylval.opt_val = new std::string(yytext); return RIGHT_BRACE_TOK; }
-.												{ std::cerr << "SCANNER "; yyerror(""); exit(1);	}
+.												{ std::cerr << "SCANNER; unrecognized token "; yyerror(""); exit(1);	}
 %%
 
 
