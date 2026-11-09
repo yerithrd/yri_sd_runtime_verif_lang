@@ -12,7 +12,7 @@
 
 
 const QString YRI_SPEC_STMT_MEALY_AUTOMATON::COMPILER_yerith_replace_DASH_SIGN_OUTPUT("-");
-		
+
 const QString YRI_SPEC_STMT_MEALY_AUTOMATON::COMPILER_yerith_replace_UNDERSCORE_SIGN_FROM_DASH_SIGN("_");
 
 
@@ -321,17 +321,17 @@ void YRI_SPEC_STMT_MEALY_AUTOMATON::
 																			const char *RECOVERY_SQL_QUERY_TOK)
 {
 	QString SQL_recovery_query_string = RECOVERY_SQL_QUERY_TOK;
-	
+
 	QString db_table = DB_TABLE_STRING_TOK;
 
 
 	//QDEBUG_STRING_OUTPUT_2("[PROCESS_recovery_sql_query_spec] * SQL_recovery_query_string: ",
 	//												SQL_recovery_query_string);
-	
+
 	//QDEBUG_STRING_OUTPUT_2("[PROCESS_recovery_sql_query_spec] db_table: ",
 	//												db_table);
 
-	
+
 	YRI_CPP_MONITOR_STATE * A_PREVIOUS_STATE_instance = 0;
 
 	YRI_CPP_MONITOR_STATE * A_CURRENT_ERROR_ACCEPTING_STATE_instance = 0;
@@ -343,11 +343,15 @@ void YRI_SPEC_STMT_MEALY_AUTOMATON::
 
 		if (0 != an_final_leading_edge)
 		{
-			A_CURRENT_ERROR_ACCEPTING_STATE_instance = 
+			A_CURRENT_ERROR_ACCEPTING_STATE_instance =
 					an_final_leading_edge->get_TARGET_STATE();
 
 			if (0 != A_CURRENT_ERROR_ACCEPTING_STATE_instance)
 			{
+                A_CURRENT_ERROR_ACCEPTING_STATE_instance->Set_SQL_RECOVERY_QUERY_DB_TABLE(db_table);
+
+                QDEBUG_STRING_OUTPUT_2("A_CURRENT_ERROR_ACCEPTING_STATE_instance --- db_table", db_table);
+
 				if (YRI_CPP_UTILS::isEqualsCaseInsensitive
 							(A_CURRENT_ERROR_ACCEPTING_STATE_instance->get_MONITOR_STATE_NAME(),
 							 _CURRENT_state_name))
@@ -355,7 +359,7 @@ void YRI_SPEC_STMT_MEALY_AUTOMATON::
 					A_PREVIOUS_STATE_instance = an_final_leading_edge->get_SOURCE_STATE();
 				}
 			}
-		}	
+		}
 	}
 
 
@@ -441,7 +445,7 @@ void YRI_SPEC_STMT_MEALY_AUTOMATON::PROCESS_FINAL_STATE_spec(const char *FINAL_S
 		}
 
 		YRI_PARSER_SET_PREVIOUS_state_name(FINAL_STATE_TOK);
-		
+
 		QDEBUG_STRING_OUTPUT_2("[PROCESS_FINAL_STATE_spec] (previous) STATE_TOK", _PREVIOUS_state_name);
 		QDEBUG_STRING_OUTPUT_2("[PROCESS_FINAL_STATE_spec] (current) STATE_TOK", _CURRENT_state_name);
 
@@ -475,7 +479,7 @@ void YRI_SPEC_STMT_MEALY_AUTOMATON::PROCESS_START_STATE_spec(const char *START_S
 		}
 
 		YRI_PARSER_SET_PREVIOUS_state_name(START_STATE_TOK);
-		
+
 		QDEBUG_STRING_OUTPUT_2("[PROCESS_START_STATE_spec] (previous) STATE_TOK", _PREVIOUS_state_name);
 		QDEBUG_STRING_OUTPUT_2("[PROCESS_START_STATE_spec] (current) STATE_TOK", _CURRENT_state_name);
 
@@ -496,17 +500,17 @@ void YRI_SPEC_STMT_MEALY_AUTOMATON::
 
 		QDEBUG_STRING_OUTPUT_2("* before YRI_SD_MEALY_AUTOMATON_SPEC_name__string", YRI_SD_MEALY_AUTOMATON_SPEC_name__string);
 
-		YRI_SD_MEALY_AUTOMATON_SPEC_name__string.replace(COMPILER_yerith_replace_DASH_SIGN_OUTPUT, 
+		YRI_SD_MEALY_AUTOMATON_SPEC_name__string.replace(COMPILER_yerith_replace_DASH_SIGN_OUTPUT,
 																										 COMPILER_yerith_replace_UNDERSCORE_SIGN_FROM_DASH_SIGN);
 
 		QDEBUG_STRING_OUTPUT_2("* after YRI_SD_MEALY_AUTOMATON_SPEC_name__string", YRI_SD_MEALY_AUTOMATON_SPEC_name__string);
-		
+
 		_a_monitor_mealy_machine
             ->set_RUNTIME_MONITOR_NAME(YRI_SD_MEALY_AUTOMATON_SPEC_name__string);
 
 
 		YRI_CPP_MONITOR_STATE *A_SOURCE_state = 0;
-		YRI_CPP_MONITOR_STATE *A_TARGET_state = 0;		
+		YRI_CPP_MONITOR_STATE *A_TARGET_state = 0;
 		YRI_CPP_MONITOR_EDGE *A_FINAL_STATE_leading_edge = 0;
 		for (uint i = 0; i < _all_final_state_LEADING_edges.size(); ++i)
 		{
@@ -516,13 +520,13 @@ void YRI_SPEC_STMT_MEALY_AUTOMATON::
 			{
 				A_SOURCE_state = A_FINAL_STATE_leading_edge->get_SOURCE_STATE();
 				A_TARGET_state = A_FINAL_STATE_leading_edge->get_TARGET_STATE();
-			
+
 				if (0 != A_SOURCE_state &&
 						0 != A_TARGET_state)
 				{
 					_a_monitor_mealy_machine->set_Recovery_action(A_SOURCE_state,
 																												A_TARGET_state);
-				}				
+				}
 			}
 		}
 
