@@ -509,29 +509,7 @@ void YRI_SPEC_STMT_MEALY_AUTOMATON::
             ->set_RUNTIME_MONITOR_NAME(YRI_SD_MEALY_AUTOMATON_SPEC_name__string);
 
 
-		YRI_CPP_MONITOR_STATE *A_SOURCE_state = 0;
-		YRI_CPP_MONITOR_STATE *A_TARGET_state = 0;
-		YRI_CPP_MONITOR_EDGE *A_FINAL_STATE_leading_edge = 0;
-		for (uint i = 0; i < _all_final_state_LEADING_edges.size(); ++i)
-		{
-			A_FINAL_STATE_leading_edge = _all_final_state_LEADING_edges.at(i);
-
-			if (0 != A_FINAL_STATE_leading_edge)
-			{
-				A_SOURCE_state = A_FINAL_STATE_leading_edge->get_SOURCE_STATE();
-				A_TARGET_state = A_FINAL_STATE_leading_edge->get_TARGET_STATE();
-
-				if (0 != A_SOURCE_state &&
-						0 != A_TARGET_state)
-				{
-					_a_monitor_mealy_machine->set_Recovery_action(A_SOURCE_state,
-																												A_TARGET_state);
-				}
-			}
-		}
-
-
-    bool yri_view_pdf_file = false;
+        bool yri_view_pdf_file = false;
 
 		_a_monitor_mealy_machine
             ->print_TO_dot_FILE(_print_dot_file_WITH_SQL_EVENT_LOG,
